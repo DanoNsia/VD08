@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random Quote Generator</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="d-flex justify-content-center align-items-center vh-100 bg-light">
+    <div class="container text-center">
+        <div class="card shadow p-4">
+            <h1 class="mb-3">Random Quote</h1>
+            <p id="quote" class="fs-4"></p>
+            <p id="author" class="fw-bold"></p>
+            <button class="btn btn-primary mt-3" onclick="fetchQuote()">New Quote</button>
+        </div>
+    </div>
+
+    <script>
+        async function fetchQuote() {
+            try {
+                const response = await fetch('/quote');
+                const data = await response.json();
+                document.getElementById('quote').textContent = `"${data.content}"`;
+                document.getElementById('author').textContent = `- ${data.author}`;
+            } catch (error) {
+                console.error('Error fetching quote:', error);
+                document.getElementById('quote').textContent = 'Failed to load quote. Try again.';
+                document.getElementById('author').textContent = '';
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', fetchQuote);
+    </script>
+</body>
+</html>
